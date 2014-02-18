@@ -1,0 +1,9 @@
+{
+    "settings":
+    {
+        "sublimeclang_options":
+        [
+            "-std=c++11"
+        ]
+    }
+}

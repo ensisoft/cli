@@ -1,0 +1,10 @@
+import os ;
+import path ;
+
+project console-widgets 
+  : requirements
+    <toolset>gcc:<cflags>-std=c++11
+    <toolset>clang:<cflags>-std=c++11
+  ;
+
+lib cli : [ glob *.cpp ] linux/terminal.cpp ;
