@@ -1,0 +1,14 @@
+
+
+import testing ;
+import os ;
+
+
+project widget-test : 
+        requirements 
+        <library>/cli//widget 
+        <library>/boost//system 
+        ;
+
+unit-test unit_test : unit_test.cpp ;
+
