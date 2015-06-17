@@ -1,10 +1,43 @@
+
 import os ;
 import path ;
+import common ;
 
-project console-widgets 
-  : requirements
-    <toolset>gcc:<cflags>-std=c++11
-    <toolset>clang:<cflags>-std=c++11
-  ;
+path-constant BOOST_INC : "boost_1_51_0" ;
+path-constant CLI_INC   : "." ;
 
-lib cli : [ glob *.cpp ] linux/terminal.cpp ;
+project command-line-interface :
+    requirements
+    <include>$(CLI_INC)
+    <include>$(BOOST_INC)
+    ;
+
+lib cli : [ glob cli/*.cpp ] ;
+
+lib ncurses : : <name>ncurses ;
+
+use-project /boost/ : $(BOOST_INC) ;
+
+exe simple : 
+  sample/simple.cpp 
+  cli 
+  ncurses
+  /boost//system/
+;
+
+exe menuapp :
+  sample/menuapp.cpp
+  cli
+  ncurses
+  /boost//system/
+;
+
+exe codestat :
+   sample/codestat.cpp
+   cli
+   ncurses
+   /boost//system
+   /boost//regex
+   /boost//program_options
+;
+

@@ -3,7 +3,9 @@
     {
         "sublimeclang_options":
         [
-            "-std=c++11"
+            //"-std=c++11",
+            "-I${home}/coding/cli/boost_1_51_0",
+            "-I${home}/coding/cli/"
         ]
     }
 }
