@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// $Id: multisel.h,v 1.3 2008/05/05 23:32:50 enska Exp $
-
-#ifndef WIDGET_MULTISEL_H
-#define WIDGET_MULTISEL_H
+#pragma once
 
 #include "common.h"
 #include <cassert>
@@ -178,5 +175,4 @@ namespace cli
 
 } // cli
 
-#endif // WIDGET_MULTISEL_H
 

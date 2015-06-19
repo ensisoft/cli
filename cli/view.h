@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// $id: view.h,v 1.1 2007/04/20 00:05:38 enska Exp $
-
-#ifndef WIDGET_VIEW_H
-#define WIDGET_VIEW_H
+#pragma once
 
 #include "widget.h"
 #include "common.h"
@@ -253,5 +250,4 @@ namespace cli
 
 } // cli
 
-#endif // WIDGET_VIEW_H
 

@@ -23,12 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
-
-// $Id: text.h,v 1.5 2008/05/05 23:32:50 enska Exp $
-
-#ifndef WIDGET_TEXT_H
-#define WIDGET_TEXT_H
+#pragma once
 
 #include "common.h"
 #include "formatter.h"
@@ -121,4 +116,3 @@ namespace cli
 
 } // cli
 
-#endif // WIDGET_TEXT_H

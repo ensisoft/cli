@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// $Id: ticker.h,v 1.4 2008/05/05 23:32:50 enska Exp $
-
-#ifndef WIDGET_TICKER_H
-#define WIDGET_TICKER_H
+#pragma once
 
 #include <string>
 #include <sstream>
@@ -140,4 +137,3 @@ namespace cli
 
 } // cli
 
-#endif // WIDGET_TICKER_H

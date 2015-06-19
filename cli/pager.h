@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// $Id: pager.h,v 1.3 2008/05/05 23:32:50 enska Exp $
-
-#ifndef WIDGET_PAGER_H
-#define WIDGET_PAGER_H
+#pragma once
 
 #include "common.h"
 #include <cassert>
@@ -104,7 +101,6 @@ namespace cli
 
 } // cli
 
-#endif // WIDGET_PAGER_H
 
 
  

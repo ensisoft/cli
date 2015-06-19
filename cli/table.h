@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// $Id: table.h,v 1.3 2008/05/05 23:32:50 enska Exp $
-
-
-#ifndef WIDGET_TABLE_H
-#define WIDGET_TABLE_H
+#pragma once
 
 #include "widget.h"
 #include "common.h"
@@ -288,4 +284,3 @@ namespace cli
 } // cli
 
 
-#endif // WIDGET_TABLE_H

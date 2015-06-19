@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// $Id: singlesel.h,v 1.2 2008/05/05 23:32:50 enska Exp $
-
-#ifndef WIDGET_SINGLESEL_H
-#define WIDGET_SINGLESEL_H
+#pragma once
 
 #include "common.h"
 #include <cassert>
@@ -127,7 +124,5 @@ namespace cli
     };
 
 } // cli
-
-#endif // WIDGET_SINGLESEL_H
 
 

@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
-// $Id: tablist.h,v 1.3 2008/05/05 23:32:50 enska Exp $
-
-#ifndef WIDGET_TABLIST_H
-#define WIDGET_TABLIST_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -85,4 +81,3 @@ namespace cli
 
 } // cli
 
-#endif // WIDGET_TABLIST_H

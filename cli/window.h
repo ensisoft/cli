@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
-// $Id: window.h,v 1.4 2008/05/05 23:32:50 enska Exp $
-
-#ifndef WIDGET_WINDOW_H
-#define WIDGET_WINDOW_H
+#pragma once
 
 #include <boost/utility.hpp>
 #include <vector>
@@ -154,6 +150,4 @@ namespace cli
     };
 
 } // cli
-
-#endif // WIDGET_WINDOW_H
 

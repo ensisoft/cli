@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// $Id: menu.h,v 1.3 2008/05/05 23:32:50 enska Exp $
-
-#ifndef WIDGET_MENU_H
-#define WIDGET_MENU_H
+#pragma once
 
 #include "formatter.h"
 #include "widget.h"
@@ -116,4 +113,3 @@ namespace cli
 
 } // cli
 
-#endif // WIDGET_MENU_H

@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-// $Id: widgets.h,v 1.4 2008/05/05 23:32:50 enska Exp $
-
-
-#ifndef WIDGETS_H
-#define WIDGETS_H
+#pragma once
 
 #include "widget.h"
 #include "window.h"
@@ -48,7 +44,6 @@
 #include "multisel.h"
 #include "dynsel.h"
 
-#endif // WIDGETS_H
 
  
 
