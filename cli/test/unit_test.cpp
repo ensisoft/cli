@@ -25,14 +25,10 @@
 
 
 #include <boost/test/minimal.hpp>
-#include <uncool/widgets.h>
+#include <cli/widgets.h>
 #include <iostream>
 #include <string>
 #include <vector>
-
-
-using namespace ui;
-using namespace std;
 
 struct conv
 {
@@ -44,7 +40,7 @@ struct conv
 
 struct stringdb
 {
-    typedef string value;
+    typedef std::string value;
     typedef conv   converter;
 
     void fetch(value& v, int index) {}
@@ -66,15 +62,15 @@ struct stringdb
  */
 void test0()
 {
-    frame_buffer fb;
+    cli::buffer fb;
     fb.resize(50, 100);
     
     {
-        button b;
+        cli::button b;
         b.position(0, 0);
         b.text("foobar");
     
-        rect r = b.draw(fb);
+        cli::rect r = b.draw(fb);
         BOOST_REQUIRE(r.top  == 0);
         BOOST_REQUIRE(r.left == 0);
         BOOST_REQUIRE(r.bottom == 1);
@@ -91,11 +87,11 @@ void test0()
         BOOST_REQUIRE(b.width() == 6);
     }
     {
-        checkbox c;
+        cli::checkbox c;
         c.position(0, 0);
         c.text("foobar");
 
-        rect r = c.draw(fb);
+        cli::rect r = c.draw(fb);
         BOOST_REQUIRE(r.top == 0);
         BOOST_REQUIRE(r.left == 0);
         BOOST_REQUIRE(r.bottom == 1);
@@ -114,11 +110,11 @@ void test0()
     }
     
     {
-        basic_input<> i;
+        cli::basic_input<> i;
         i.position(0, 0);
         i.width(40);
         
-        rect r = i.draw(fb);
+        cli::rect r = i.draw(fb);
         BOOST_REQUIRE(r.top == 0);
         BOOST_REQUIRE(r.left == 0);
         BOOST_REQUIRE(r.bottom == 1);
@@ -128,7 +124,7 @@ void test0()
         BOOST_REQUIRE(i.width()  == 40);
     }
     {
-        basic_list<stringdb> l;
+        cli::basic_list<stringdb> l;
         l.position(0, 0);
         l.rowcount = 100;
         l.height(10);
@@ -140,7 +136,7 @@ void test0()
         l.invalidate(true);
         BOOST_REQUIRE(l.is_valid() == false);
         
-        rect r = l.draw(fb);
+        cli::rect r = l.draw(fb);
         BOOST_REQUIRE(r.top == 0);
         BOOST_REQUIRE(r.left == 0);
         BOOST_REQUIRE(r.bottom == 10);
@@ -148,7 +144,7 @@ void test0()
         
         l.validate();
 
-        bool ret = l.keydown(0, VK_MOVE_DOWN);
+        bool ret = l.keydown(0, cli::VK_MOVE_DOWN);
         BOOST_REQUIRE(ret == true);
         
         l.position(5, 5);
@@ -160,29 +156,29 @@ void test0()
         BOOST_REQUIRE(r.right == 45);
         
         
-        l.keydown(0, VK_MOVE_DOWN);
+        l.keydown(0, cli::VK_MOVE_DOWN);
         r = l.draw(fb);
         BOOST_REQUIRE(r.top == 6);
         BOOST_REQUIRE(r.bottom == 8);
     }
     {
-        basic_list<stringdb> l;
+        cli::basic_list<stringdb> l;
         l.position(0, 0);
         l.rowcount = 10;
         l.height(10);
         l.width(10);
         
         l.validate();
-        l.keydown(0, VK_MOVE_END);
+        l.keydown(0, cli::VK_MOVE_END);
         
-        rect r;
+        cli::rect r;
         r = l.draw(fb);
         BOOST_REQUIRE(r.top == 0);
         BOOST_REQUIRE(r.bottom == 10);
 
     }
     {
-        basic_table<stringdb> t;
+        cli::basic_table<stringdb> t;
         t.position(0, 0);
         t.rowcount = 100;
         t.height(10);
@@ -194,7 +190,7 @@ void test0()
         t.invalidate(true);
         BOOST_REQUIRE(t.is_valid() == false);
         
-        rect r = t.draw(fb);
+        cli::rect r = t.draw(fb);
         BOOST_REQUIRE(r.top == 0);
         BOOST_REQUIRE(r.left == 0);
         BOOST_REQUIRE(r.bottom == 10);
@@ -203,16 +199,16 @@ void test0()
     }
 
     {
-        menulist list;
+        cli::menulist list;
         list.resize(2);
         list[0].text = "Menu 1";
-        list[0].items.push_back(make_item("foobar"));
-        list[0].items.push_back(make_item("menu item"));
-        list[0].items.push_back(make_item("huhu"));
+        list[0].items.push_back(cli::make_menu_item("foobar"));
+        list[0].items.push_back(cli::make_menu_item("menu item"));
+        list[0].items.push_back(cli::make_menu_item("huhu"));
         list[1].text = "help menu";
-        list[1].items.push_back(make_item("foobar"));
+        list[1].items.push_back(cli::make_menu_item("foobar"));
 
-        menu m;
+        cli::menu m;
         m.setmenu(list);
         m.position(1, 1);
         BOOST_REQUIRE(m.is_valid() == false);
@@ -224,7 +220,7 @@ void test0()
         
         enum { menuspacing = 1 };
 
-        rect r = m.draw(fb);
+        cli::rect r = m.draw(fb);
         BOOST_REQUIRE(r.top == 1);
         BOOST_REQUIRE(r.left == 1);
         BOOST_REQUIRE(r.right == r.left + strlen("Menu 1") + strlen("help menu") + menuspacing);
@@ -235,7 +231,7 @@ void test0()
         
         // open first submenu
         m.set_focus(true);
-        m.keydown(0, VK_ACTION_SPACE);
+        m.keydown(0, cli::VK_ACTION_SPACE);
         
         r = m.draw(fb);
         // the invalid rectangle should now include the opened sub menu
@@ -245,7 +241,7 @@ void test0()
         BOOST_REQUIRE(r.bottom == 5);
         
         // close the menu
-        m.keydown(0, VK_ACTION_SPACE);
+        m.keydown(0, cli::VK_ACTION_SPACE);
         // the erase rectangle should now cover the first opened sub menu
         r = m.erase();
         BOOST_REQUIRE(r.top == 2);
@@ -261,8 +257,8 @@ void test0()
         BOOST_REQUIRE(r.bottom == 2);
 
         // open second submenu
-        m.keydown(0, VK_MOVE_NEXT);
-        m.keydown(0, VK_ACTION_SPACE);
+        m.keydown(0, cli::VK_MOVE_NEXT);
+        m.keydown(0, cli::VK_ACTION_SPACE);
         
         m.draw(fb);
         
@@ -284,14 +280,14 @@ void test0()
  */
 void test1()
 {
-    frame_buffer fb;
+    cli::buffer fb;
     fb.resize(50, 100);
 
-    cell c = {'X', ATTRIB_NONE, COLOR_NONE};
-    fill_frame_buffer(fb, c);
+    cli::cell c = {'X', cli::ATTRIB_NONE, cli::COLOR_NONE};
+    fb.fill(c);
     {
 
-        basic_table<stringdb> t;
+        cli::basic_table<stringdb> t;
         t.position(0, 0);
         t.width(40);
         t.rowcount = 1;
@@ -301,7 +297,7 @@ void test1()
         t.addcol(10); // this sums up to 45 cols, which would violate the width
         t.addcol(35);
         
-        rect r = t.draw(fb);
+        cli::rect r = t.draw(fb);
         BOOST_REQUIRE(r.top  == 0);
         BOOST_REQUIRE(r.left == 0);
         BOOST_REQUIRE(r.bottom == 10);
@@ -311,7 +307,7 @@ void test1()
         int count = 0;
         for (size_t row=0; row<fb.rows(); ++row)
         {
-            frame_buffer::row_type& r = fb[row];
+            cli::buffer::row_type& r = fb[row];
             for (size_t col=0; col<fb.cols(); ++col)
             {
                 if (r[col].value != 'X')
@@ -321,11 +317,11 @@ void test1()
         BOOST_REQUIRE(count == 40 * 10);
     }
 
-    fill_frame_buffer(fb, c);
+    fb.fill(c);
     {
         // same as above but with nonzero cell spacing
 
-        basic_table<stringdb> t;
+        cli::basic_table<stringdb> t;
         t.position(0, 0);
         t.width(40);
         t.rowcount = 1;
@@ -336,7 +332,7 @@ void test1()
         t.addcol(35);
         t.cellspacing(2);
         
-        rect r = t.draw(fb);
+        cli::rect r = t.draw(fb);
         BOOST_REQUIRE(r.top == 0);
         BOOST_REQUIRE(r.left == 0);
         BOOST_REQUIRE(r.bottom == 10);
@@ -345,7 +341,7 @@ void test1()
         int count = 0;
         for (size_t row=0; row<fb.rows(); ++row)
         {
-            frame_buffer::row_type& r = fb[row];
+            cli::buffer::row_type& r = fb[row];
             for (size_t col=0; col<fb.cols(); ++col)
             {
                 if (r[col].value != 'X')
@@ -366,14 +362,14 @@ void test1()
  */
 void test2()
 {
-    frame_buffer fb;
+    cli::buffer fb;
     fb.resize(50, 50);
 
-    window wnd;
+    cli::window wnd;
         
-    button b1;
-    button b2;
-    button b3;
+    cli::button b1;
+    cli::button b2;
+    cli::button b3;
     
     b1.position(1, 1);
     b1.text("button1");
@@ -398,7 +394,7 @@ void test2()
     
     // the current invalid rectangle should be the union 
     // of the dirty rectangles of all invalid widgets.
-    rect rc = wnd.draw(fb);
+    cli::rect rc = wnd.draw(fb);
     BOOST_REQUIRE(rect_is_empty(rc) == false);
     BOOST_REQUIRE(rc.top    == 1);
     BOOST_REQUIRE(rc.bottom == 47);
@@ -494,27 +490,27 @@ void row_select()
  */
 void test3()
 {
-    test_selection<default_single_selection> sel;
+    test_selection<cli::default_single_selection> sel;
     
     BOOST_REQUIRE(sel.selpos() == 0);
     
     BOOST_REQUIRE(sel.test_keydown(200, 10, 20) == false);
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_DOWN, 10, 20));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_DOWN, 10, 20));
     BOOST_REQUIRE(sel.selpos() == 1);
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_UP, 10, 20));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_UP, 10, 20));
     BOOST_REQUIRE(sel.selpos() == 0);
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_DOWN_PAGE, 10, 20));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_DOWN_PAGE, 10, 20));
     BOOST_REQUIRE(sel.selpos() == 10);
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_DOWN_PAGE, 10, 15));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_DOWN_PAGE, 10, 15));
     BOOST_REQUIRE(sel.selpos() == 14);
     
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_HOME, 10, 10));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_HOME, 10, 10));
     BOOST_REQUIRE(sel.selpos() == 0);
     
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_END, 10, 25));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_END, 10, 25));
     BOOST_REQUIRE(sel.selpos() == 24);
     
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_HOME, 10, 10));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_HOME, 10, 10));
 
     row_changed  = false;
     row_selected = false;
@@ -523,11 +519,11 @@ void test3()
     sel.evtselect = row_select;
 
     // wrap over from first to last the item
-    sel.test_keydown(VK_MOVE_UP, 10, 20);
+    sel.test_keydown(cli::VK_MOVE_UP, 10, 20);
     BOOST_REQUIRE(sel.selpos() == 19);
     BOOST_REQUIRE(row_changed);
     
-    sel.test_keydown(VK_ACTION_SPACE, 10, 20);
+    sel.test_keydown(cli::VK_ACTION_SPACE, 10, 20);
     BOOST_REQUIRE(sel.selpos() == 19);
     BOOST_REQUIRE(row_selected);
 
@@ -546,32 +542,32 @@ void test3()
  */
 void test4()
 {
-    test_selection<default_multi_selection> sel;
+    test_selection<cli::default_multi_selection> sel;
     
-    default_multi_selection::range r = sel.selrange();
+    cli::default_multi_selection::range r = sel.selrange();
     BOOST_REQUIRE(r.start == 0);
     BOOST_REQUIRE(r.end   == 1);
     
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_DOWN, 10, 20));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_DOWN, 10, 20));
     BOOST_REQUIRE(sel.selpos() == 1);
     r = sel.selrange();
     BOOST_REQUIRE(r.start == 1);
     BOOST_REQUIRE(r.end   == 2);
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_UP, 10, 20));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_UP, 10, 20));
     BOOST_REQUIRE(sel.selpos() == 0);
     
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_END, 10, 20));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_END, 10, 20));
     BOOST_REQUIRE(sel.selpos() == 19);
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_HOME, 10, 20));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_HOME, 10, 20));
     BOOST_REQUIRE(sel.selpos() == 0);
     
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_DOWN_PAGE, 10, 20));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_DOWN_PAGE, 10, 20));
     BOOST_REQUIRE(sel.selpos() == 10);
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_UP_PAGE, 15, 20));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_UP_PAGE, 15, 20));
     BOOST_REQUIRE(sel.selpos() == 0);
     
-    BOOST_REQUIRE(sel.test_keydown(VK_SET_MARK, 10, 20));
-    BOOST_REQUIRE(sel.test_keydown(VK_MOVE_DOWN, 10, 20));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_SET_MARK, 10, 20));
+    BOOST_REQUIRE(sel.test_keydown(cli::VK_MOVE_DOWN, 10, 20));
     r = sel.selrange();
     BOOST_REQUIRE(r.start == 0);
     BOOST_REQUIRE(r.end   == 2);
@@ -586,10 +582,10 @@ void test4()
     sel.evtrow    = row_change;
     sel.evtselect = row_select;
     
-    sel.test_keydown(VK_MOVE_DOWN, 10, 20);
+    sel.test_keydown(cli::VK_MOVE_DOWN, 10, 20);
     BOOST_REQUIRE(row_changed);
     
-    sel.test_keydown(VK_ACTION_SPACE, 10, 20);
+    sel.test_keydown(cli::VK_ACTION_SPACE, 10, 20);
     BOOST_REQUIRE(row_selected);
 }
 
@@ -622,7 +618,7 @@ struct test_pager : public Policy
  */
 void test5()
 {
-    test_pager<default_pager> page;
+    test_pager<cli::default_pager> page;
     
     // assume that we have a list of data of 55 items.
     // this is split over to "pages" each page begin 7 rows of data.
@@ -656,15 +652,15 @@ void test5()
  */
 void test6()
 {
-    frame_buffer fb;
+    cli::buffer fb;
     fb.resize(1, 50);
     
-    cell blank = {0,   ATTRIB_NONE, COLOR_NONE};
-    cell fill  = {'x', 100, 150};
+    cli::cell blank = {0,   cli::ATTRIB_NONE, cli::COLOR_NONE};
+    cli::cell fill  = {'x', 100, 150};
 
-    fill_frame_buffer(fb, blank);
+    fb.fill(blank);
 
-    formatter f(fill, fb);
+    cli::formatter f(fill, fb);
     
     {
         // make sure that when blank filling is not set on
@@ -674,9 +670,9 @@ void test6()
         f.move(0, 0);
         f.print("foo", 20);
         
-        BOOST_REQUIRE(fb[0][0] == make_cell('f', 100, 150));
-        BOOST_REQUIRE(fb[0][1] == make_cell('o', 100, 150));
-        BOOST_REQUIRE(fb[0][2] == make_cell('o', 100, 150));
+        BOOST_REQUIRE(fb[0][0] == cli::make_cell('f', 100, 150));
+        BOOST_REQUIRE(fb[0][1] == cli::make_cell('o', 100, 150));
+        BOOST_REQUIRE(fb[0][2] == cli::make_cell('o', 100, 150));
         
         // following cells on this row are left untouched
         BOOST_REQUIRE(fb[0][3] == blank);
@@ -685,7 +681,7 @@ void test6()
         
     }
     
-    fill_frame_buffer(fb, blank);
+    fb.fill(blank);
 
     {
         // make sure that when filling is set on
@@ -694,9 +690,9 @@ void test6()
         f.move(0, 0);
         f.print("foo", 20);
 
-        BOOST_REQUIRE(fb[0][0] == make_cell('f', 100, 150));
-        BOOST_REQUIRE(fb[0][1] == make_cell('o', 100, 150));
-        BOOST_REQUIRE(fb[0][2] == make_cell('o', 100, 150));
+        BOOST_REQUIRE(fb[0][0] == cli::make_cell('f', 100, 150));
+        BOOST_REQUIRE(fb[0][1] == cli::make_cell('o', 100, 150));
+        BOOST_REQUIRE(fb[0][2] == cli::make_cell('o', 100, 150));
 
         // these are all filled
         BOOST_REQUIRE(fb[0][3]  == fill);
@@ -708,7 +704,7 @@ void test6()
         
     }
     
-    fill_frame_buffer(fb, blank);
+    fb.fill(blank);
     
     {
         // make sure that only part of the part of the string specified
@@ -718,20 +714,19 @@ void test6()
         f.move(0, 0);
         f.print("a longer string than foo", 8, 20);
         
-        BOOST_REQUIRE(fb[0][0] == make_cell('a', 100, 150));
-        BOOST_REQUIRE(fb[0][1] == make_cell(' ', 100, 150));
-        BOOST_REQUIRE(fb[0][2] == make_cell('l', 100, 150));
-        BOOST_REQUIRE(fb[0][3] == make_cell('o', 100, 150));
-        BOOST_REQUIRE(fb[0][4] == make_cell('n', 100, 150));
-        BOOST_REQUIRE(fb[0][5] == make_cell('g', 100, 150));
-        BOOST_REQUIRE(fb[0][6] == make_cell('e', 100, 150));        
-        BOOST_REQUIRE(fb[0][7] == make_cell('r', 100, 150));
-        
+        BOOST_REQUIRE(fb[0][0] == cli::make_cell('a', 100, 150));
+        BOOST_REQUIRE(fb[0][1] == cli::make_cell(' ', 100, 150));
+        BOOST_REQUIRE(fb[0][2] == cli::make_cell('l', 100, 150));
+        BOOST_REQUIRE(fb[0][3] == cli::make_cell('o', 100, 150));
+        BOOST_REQUIRE(fb[0][4] == cli::make_cell('n', 100, 150));
+        BOOST_REQUIRE(fb[0][5] == cli::make_cell('g', 100, 150));
+        BOOST_REQUIRE(fb[0][6] == cli::make_cell('e', 100, 150));        
+        BOOST_REQUIRE(fb[0][7] == cli::make_cell('r', 100, 150));
         BOOST_REQUIRE(fb[0][8]  == blank);
         BOOST_REQUIRE(fb[0][49] == blank);
     }
 
-    fill_frame_buffer(fb, blank);
+    fb.fill(blank);
 
     {
         // make sure that only part of the the string indicated by
@@ -741,14 +736,14 @@ void test6()
         f.move(0, 0);
         f.print("a longer string than foo", 8, 20);
         
-        BOOST_REQUIRE(fb[0][0] == make_cell('a', 100, 150));
-        BOOST_REQUIRE(fb[0][1] == make_cell(' ', 100, 150));
-        BOOST_REQUIRE(fb[0][2] == make_cell('l', 100, 150));
-        BOOST_REQUIRE(fb[0][3] == make_cell('o', 100, 150));
-        BOOST_REQUIRE(fb[0][4] == make_cell('n', 100, 150));
-        BOOST_REQUIRE(fb[0][5] == make_cell('g', 100, 150));
-        BOOST_REQUIRE(fb[0][6] == make_cell('e', 100, 150));        
-        BOOST_REQUIRE(fb[0][7] == make_cell('r', 100, 150));
+        BOOST_REQUIRE(fb[0][0] == cli::make_cell('a', 100, 150));
+        BOOST_REQUIRE(fb[0][1] == cli::make_cell(' ', 100, 150));
+        BOOST_REQUIRE(fb[0][2] == cli::make_cell('l', 100, 150));
+        BOOST_REQUIRE(fb[0][3] == cli::make_cell('o', 100, 150));
+        BOOST_REQUIRE(fb[0][4] == cli::make_cell('n', 100, 150));
+        BOOST_REQUIRE(fb[0][5] == cli::make_cell('g', 100, 150));
+        BOOST_REQUIRE(fb[0][6] == cli::make_cell('e', 100, 150));        
+        BOOST_REQUIRE(fb[0][7] == cli::make_cell('r', 100, 150));
         
         BOOST_REQUIRE(fb[0][8]  == fill);
         BOOST_REQUIRE(fb[0][19] == fill);
@@ -758,7 +753,7 @@ void test6()
 
     }
 
-    fill_frame_buffer(fb, blank);
+    fb.fill(blank);
 
     {
         // make sure that buffer is not overrun (valgrind)
@@ -774,8 +769,6 @@ void test6()
 
 int test_main(int, char* [])
 {
-    cout << "running " << __FILE__ << "\n";
-    
     test0();
     test1();
     test2();
