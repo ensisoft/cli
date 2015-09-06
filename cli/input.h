@@ -25,10 +25,13 @@
 
 #pragma once
 
+#include "config.h"
+
 #include "widget.h"
 #include "common.h"
 #include "inputpolicy.h"
 #include "formatter.h"
+#include <functional>
 #include <string>
 #include <cassert>
 
@@ -50,9 +53,10 @@ namespace cli
     {
     public:
         // This will get invoked when VK_ACTION_ENTER is received.
-        event0 evtenter;
+        std::function<void(void)> evtenter;
+
         // This will get invoked for any input keys.
-        event0 evtkey;
+        std::function<void(void)> evtkey;
 
         basic_input() : insertpos_(0), caretpos_(0), 
           width_(0), focus_(false) 

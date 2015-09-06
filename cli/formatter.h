@@ -25,9 +25,12 @@
 
 #pragma once
 
+#include "config.h"
+
 #include "buffer.h"
 #include "common.h"
 #include <cassert>
+#include <cstring>
 
 namespace cli
 {
@@ -49,7 +52,7 @@ namespace cli
         formatter(const cell& def, buffer& fb) :
           default_(def), fb_(fb), posx_(0), posy_(0), fillblank_(true) 
           {
-              memset(&blank_, 0, sizeof(cell));
+              std::memset(&blank_, 0, sizeof(cell));
           }
         
         formatter(const cell& def, const cell& blank, buffer& fb) :
@@ -59,8 +62,8 @@ namespace cli
         formatter(buffer& fb) : 
           fb_(fb), posx_(0), posy_(0), fillblank_(true)
         {
-            memset(&default_, 0, sizeof(cell));
-            memset(&blank_, 0, sizeof(cell));
+            std::memset(&default_, 0, sizeof(cell));
+            std::memset(&blank_, 0, sizeof(cell));
         }
 
         // Set default cell that is to be applied to cells with data.

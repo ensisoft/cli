@@ -25,9 +25,12 @@
 
 #pragma once
 
+#include "config.h"
+
 #include "widget.h"
 #include "common.h"
 #include "formatter.h"
+#include <functional>
 #include <string>
 
 namespace cli
@@ -38,7 +41,7 @@ namespace cli
     public:
         // Evtclick is invoked when the checkbox is clicked.
         // This happens when the action key is pressed.
-        event0 evtclick;
+        std::function<void (void)> evtclick;
 
        ~checkbox() {}
         checkbox() : checked_(false), focus_(false) {}
@@ -58,14 +61,14 @@ namespace cli
             f.print(text_.c_str(), text_.size());
             if (checked_)
             {
-                const cell c = {0, ATTRIB_NONE, col};
+                const cell c = {0, (short)ATTRIB_NONE, (short)col};
                 formatter f(c, fb);
                 f.move(xpos_ + text_.size(), ypos_);
                 f.print("[*]", 3);
             }
             else
             {
-                const cell c = {0, ATTRIB_NONE, col};
+                const cell c = {0, (short)ATTRIB_NONE, (short)col};
                 formatter f(c, fb);
                 f.move(xpos_ + text_.size(), ypos_);
                 f.print("[ ]", 3);

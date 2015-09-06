@@ -24,7 +24,6 @@
 //
 
 
-#include <boost/bind.hpp>
 #include <cli/widgets.h>
 #include <cli/terminal.h>
 #include <cassert>
@@ -173,9 +172,11 @@ int main(int argc, const char* argv[])
     framebuff.resize(size.rows, size.cols);
     
     cli::window wnd;
-    wnd.evtdraw   = boost::bind(draw_buffer, _1, &framebuff);
-    wnd.evterase  = boost::bind(clear_buffer, _1, _2, &framebuff);    
-    wnd.evtcursor = boost::bind(set_cursor, _1, _2);
+    wnd.evtdraw   = std::bind(draw_buffer, std::placeholders::_1, &framebuff);
+    wnd.evterase  = std::bind(clear_buffer,
+        std::placeholders::_1, std::placeholders::_2, &framebuff);    
+    wnd.evtcursor = std::bind(set_cursor, 
+        std::placeholders::_1, std::placeholders::_2);
 
     // show some header data
     cli::text text1;
@@ -209,7 +210,8 @@ int main(int argc, const char* argv[])
     cli::menu menu1;
     menu1.setmenu(list);
     menu1.position(0, 1);
-    menu1.evtmenu = boost::bind(menu_event, _1, &text2);
+    menu1.evtmenu = std::bind(menu_event, 
+        std::placeholders::_1, &text2);
 
     cli::basic_view<const_text_data> view1;
     view1.position(0, 3);

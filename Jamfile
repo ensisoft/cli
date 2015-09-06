@@ -2,6 +2,7 @@
 import os ;
 import path ;
 import common ;
+import testing ;
 
 path-constant BOOST_INC : "boost_1_51_0" ;
 path-constant CLI_INC   : "." ;
@@ -10,6 +11,8 @@ project command-line-interface :
     requirements
     <include>$(CLI_INC)
     <include>$(BOOST_INC)
+    <toolset>clang:<cflags>-std=c++11
+    <toolset>gcc:<cflags>-std=c++11
     ;
 
 lib cli : [ glob cli/*.cpp ] ;
@@ -41,3 +44,9 @@ exe codestat :
    /boost//program_options
 ;
 
+unit-test unit_tests :
+   unit_test/unit_test.cpp
+   cli
+   ncurses
+   /boost//system
+;

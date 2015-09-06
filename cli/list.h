@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include "config.h"
+
 #include "widget.h"
 #include "common.h"
 #include "pager.h"

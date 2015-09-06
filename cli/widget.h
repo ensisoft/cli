@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include "config.h"
+
 #include "common.h"
 
 namespace cli

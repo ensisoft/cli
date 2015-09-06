@@ -39,7 +39,6 @@
 #  include <dirent.h>
 #endif
 #include <boost/program_options.hpp>
-#include <boost/bind.hpp>
 #include <boost/regex.hpp>
 #include <cli/widgets.h>
 #include <cli/terminal.h>
@@ -468,7 +467,8 @@ int main(int argc, const char* argv[])
         framebuff.resize(size.rows, size.cols);
 
         window wnd;
-        wnd.evtdraw = boost::bind(draw_window, _1, &framebuff);
+        wnd.evtdraw = std::bind(draw_window, 
+            std::placeholders::_1, &framebuff);
 
         basic_table<file_tree_data> list;
         list.files = &files;

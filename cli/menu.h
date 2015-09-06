@@ -25,11 +25,14 @@
 
 #pragma once
 
+#include "config.h"
+
 #include "formatter.h"
 #include "widget.h"
 #include "common.h"
 #include <vector>
 #include <string>
+#include <functional>
 
 namespace cli
 {
@@ -63,7 +66,7 @@ namespace cli
         // This event is fired when a menu item is selected from
         // the menu. The event parameter is the id of the menu 
         // item in question.
-        event1 evtmenu;
+        std::function<void (int)> evtmenu;
 
         
         // Focus stuff.

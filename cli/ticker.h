@@ -25,19 +25,16 @@
 
 #pragma once
 
-#include <string>
-#include <sstream>
-#include <iomanip>
-#include <cassert>
+#include "config.h"
+
 #include "common.h"
 #include "formatter.h"
 #include "buffer.h"
 
-#ifdef LINUX
-  // everybody loves macros...
-#  undef SCROLL
-#  undef scroll
-#endif
+#include <string>
+#include <sstream>
+#include <iomanip>
+#include <cassert>
 
 namespace cli
 {

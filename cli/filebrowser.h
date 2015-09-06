@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include "config.h"
+
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/convenience.hpp>

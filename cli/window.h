@@ -25,8 +25,10 @@
 
 #pragma once
 
-#include <boost/utility.hpp>
+#include "config.h"
+
 #include <vector>
+#include <functional>
 #include "common.h"
 
 namespace cli
@@ -36,27 +38,27 @@ namespace cli
     class buffer;
 
     // A window object manages a bunch of widgets and gives them a common context and frame.
-    class window : boost::noncopyable
+    class window
     {
     public:
         // Evtdraw event will be invoked when the window is dirty and needs painting.
         // As a response to this event application should call the draw function.
         // Inside the draw function one should be careful not to make any calls to 
         // to the window object, since this maybe result in the event being fired recursively.
-        boost::function1<void, window*> evtdraw;
+        std::function<void(window*)> evtdraw;
         
         // Evterase event will be invoked when a framebuffer area needs to be
         // erased/cleared to remove any remaining output.
         // If the whole framebuffer should be erased right and bottom will be set to 
         // std::numeric_limits<size_t>::max() value.
         // If this event is invoked it is invoked during the draw operation.
-        boost::function2<void, window*, rect> evterase;
+        std::function<void(window*, rect)> evterase;
 
         // Evtfocus event will be invoked when the window changes the focused widget.
-        boost::function1<void, window*> evtfocus;
+        std::function<void(window*)> evtfocus;
         
         // Evtcursor event will be invoked when the window changes the current cursor state.
-        boost::function2<void, window*, cursor> evtcursor;
+        std::function<void(window*, cursor)> evtcursor;
 
        ~window();
         window();

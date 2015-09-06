@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include "config.h"
+
 #include <string>
 #include <sstream>
 #include <iomanip>

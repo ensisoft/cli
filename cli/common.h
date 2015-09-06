@@ -25,11 +25,9 @@
 
 #pragma once
 
+#include "config.h"
+
 #include <algorithm>
-#include <boost/function.hpp>
-#ifdef WINDOWS
-#  undef COLOR_HIGHLIGHT
-#endif
 
 namespace cli
 {
@@ -47,9 +45,6 @@ struct size
 };
 
 
-typedef boost::function0<void> event0;
-typedef boost::function1<void, int> event1;
-typedef boost::function2<void, int, int> event2;
 
 // Supported widget colors. Only few of these colors are used
 // by the widgets directly (mostly just COLOR_NONE and COLOR_SELECTION).

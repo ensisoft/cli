@@ -25,7 +25,10 @@
 
 #pragma once
 
+#include "config.h"
+
 #include "common.h"
+#include <functional>
 #include <cassert>
 
 namespace cli
@@ -35,10 +38,10 @@ namespace cli
     {
     public:
         // Fired when selection key is pressed.
-        event0 evtselect;
+        std::function<void()> evtselect;
         
         // Fired when selected row changes.
-        event0 evtrow;
+        std::function<void()> evtrow;
         
         // Set selection position.
         void selpos(int pos)

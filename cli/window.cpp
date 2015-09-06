@@ -23,17 +23,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
-// $Id: window.cpp,v 1.5 2008/05/05 23:32:50 enska Exp $
+#include "config.h"
 
 #include "window.h"
 #include "widget.h"
 #include "buffer.h"
 #include "menu.h"
-#include <cassert>
 #include <algorithm>
-
-using namespace std;
+#include <vector>
+#include <cassert>
 
 namespace cli
 {
@@ -294,7 +292,7 @@ rect window::draw(buffer& fb)
 rect window::animate(buffer& fb, int elapsed)
 {
     rect ret = {};
-    for (vector<widget*>::iterator it = circus_.begin(); it != circus_.end(); ++it)
+    for (std::vector<widget*>::iterator it = circus_.begin(); it != circus_.end(); ++it)
     {
         widget* w = *it;
         if (w == focused_ || w == menu_)
@@ -337,7 +335,7 @@ rect window::animate(buffer& fb, int elapsed)
 
 void window::invalidate()
 {
-    for (vector<widget*>::iterator it = circus_.begin(); it != circus_.end(); ++it)
+    for (std::vector<widget*>::iterator it = circus_.begin(); it != circus_.end(); ++it)
         (*it)->invalidate(true);
 
     is_valid_ = false;
@@ -364,14 +362,14 @@ bool window::keydown(int raw, int vk)
         // first find the position where the currently focused 
         // widget is, and then move to the next or previous widget 
         // relative to the focused widget.
-        vector<widget*>::size_type pos = 0;
+        std::vector<widget*>::size_type pos = 0;
         if (focused_)
         {
-            vector<widget*>::iterator it = find(circus_.begin(), circus_.end(), focused_);
+            std::vector<widget*>::iterator it = find(circus_.begin(), circus_.end(), focused_);
             assert(it != circus_.end());
             pos = distance(circus_.begin(), it);
         }
-        for (vector<widget*>::size_type i(0); i<circus_.size(); ++i)
+        for (std::vector<widget*>::size_type i(0); i<circus_.size(); ++i)
         {
             widget* next = NULL;
             if (vk == VK_FOCUS_NEXT)
@@ -421,7 +419,7 @@ bool window::keydown(int raw, int vk)
     }
 
     // see if some widgets become invalid as a result of input handling
-    for (vector<widget*>::size_type i(0); i<circus_.size(); ++i)
+    for (std::vector<widget*>::size_type i(0); i<circus_.size(); ++i)
     {
         if (!circus_[i]->is_valid())
         {

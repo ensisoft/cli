@@ -25,6 +25,7 @@
 
 #pragma once
 
+#include "config.h"
 #include <vector>
 #include <cassert>
 #include "common.h"
@@ -33,7 +34,7 @@ namespace cli
 {
     // buffer represents an astract container of character cells
     // for widgets to output their information into.
-    // A frame buffer is a collection of M rows each N columns wide.
+    // buffer is a collection of M rows each N columns wide.
     class buffer
     {
     public:

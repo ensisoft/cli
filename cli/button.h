@@ -25,10 +25,13 @@
 
 #pragma once
 
+#include "config.h"
+
 #include "widget.h"
 #include "formatter.h"
 #include "common.h"
 #include <string>
+#include <functional>
 
 namespace cli
 {
@@ -38,7 +41,7 @@ namespace cli
     public:
         // Evtclick will be invoked when the button is clicked. 
         // This happens when the action key is pressed. 
-        event0 evtclick;
+        std::function<void(void)> evtclick;
 
         button() : focus_(false) {}
 
@@ -62,7 +65,7 @@ namespace cli
         rect draw(buffer& fb)
         {
             const color col = focus_ ? COLOR_SELECTION : COLOR_NONE;
-            const cell c = {0, ATTRIB_NONE, col};
+            const cell c = {0, ATTRIB_NONE, (short)col};
             formatter f(c, fb);
             f.move(xpos_, ypos_);
             f.print(text_.c_str(), text_.size());

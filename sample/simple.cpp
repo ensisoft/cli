@@ -29,7 +29,6 @@
 #  define LINUX
 #endif
 
-#include <boost/bind.hpp>
 #include <cli/widgets.h>
 #include <cli/terminal.h>
 #include <cassert>
@@ -332,7 +331,7 @@ int main(int argc, const char* argv[])
     // bind some interesting window events.
     // if draw event is not used then one can manually check
     // after some window operations if the window needs drawing with window::is_valid()
-    wnd.evtdraw = boost::bind(draw_window, _1, &framebuff);
+    wnd.evtdraw = std::bind(draw_window, std::placeholders::_1, &framebuff);
                                     
 
     
@@ -346,7 +345,7 @@ int main(int argc, const char* argv[])
     list.position(0, 2);
     list.width(size.cols);
     list.height(size.rows - 5);
-    list.evtselect = boost::bind(select_tree_node, &list, &wnd);
+    list.evtselect = std::bind(select_tree_node, &list, &wnd);
 
     cli::text text1;
     cli::text text2;
@@ -369,9 +368,9 @@ int main(int argc, const char* argv[])
     button2.text("Create");
     button3.position(20, size.rows-2);
     button3.text("Rename");
-    button1.evtclick = boost::bind(&cli::text::settext, &text2, "Delete clicked!");
-    button2.evtclick = boost::bind(&cli::text::settext, &text2, "Create clicked!");
-    button3.evtclick = boost::bind(&cli::text::settext, &text2, "Rename clicked!");
+    button1.evtclick = std::bind(&cli::text::settext, &text2, "Delete clicked!");
+    button2.evtclick = std::bind(&cli::text::settext, &text2, "Create clicked!");
+    button3.evtclick = std::bind(&cli::text::settext, &text2, "Rename clicked!");
 
     // add widgets into the window
     wnd.add(&list);

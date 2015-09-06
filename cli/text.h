@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include "config.h"
+
 #include "common.h"
 #include "formatter.h"
 #include "buffer.h"
